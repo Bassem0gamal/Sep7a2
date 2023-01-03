@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sep7a2_app/screens/new_home_screen.dart';
 import 'package:sep7a2_app/screens/welcome_screen.dart';
-import 'package:sep7a2_app/screens/home_screen.dart';
 import 'package:sep7a2_app/screens/login_screen.dart';
 
 
@@ -20,7 +19,6 @@ class MyApp extends StatelessWidget {
       routes: {
         WelcomeScreen.id: (context) => const WelcomeScreen(),
         LogInScreen.id: (context) => const LogInScreen(),
-        //HomeScreen.id: (context) => const HomeScreen(),
         NewHomeScreen.id :(context) => const NewHomeScreen(),
       },
     );

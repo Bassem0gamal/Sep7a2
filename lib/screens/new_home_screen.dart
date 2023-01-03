@@ -17,17 +17,23 @@ class NewHomeScreen extends StatefulWidget {
 class _NewHomeScreenState extends State<NewHomeScreen> {
   int counter = 0;
 
-  void counterIncrement() async{
+  @override
+  void initState() {
+    super.initState();
+    initCounter();
+  }
+
+  void initCounter() async {
+    counter = await getCounter();
+    setState(() {});
+  }
+
+  void counterIncrement() async {
     setState(() {
       counter++;
-      NewHomeScreen.userCounter.value = counter;
-      print(NewHomeScreen.userCounter);
     });
     SharedPreferences counterPref = await SharedPreferences.getInstance();
     await counterPref.setInt('counter', counter);
-    final userCounter = counterPref.getInt('counter');
-    NewHomeScreen.userCounter.value = userCounter;
-    print(userCounter);
   }
 
   void counterReset() {
@@ -38,10 +44,9 @@ class _NewHomeScreenState extends State<NewHomeScreen> {
     Navigator.pop(context);
   }
 
-  Future getCounter() async {
+  Future<int> getCounter() async {
     SharedPreferences counterPref = await SharedPreferences.getInstance();
-    await counterPref.setInt('counter', counter);
-    final userCounter = counterPref.getInt('counter');
+    final userCounter = counterPref.getInt('counter') ?? 0;
     return userCounter;
   }
 
@@ -107,18 +112,12 @@ class _NewHomeScreenState extends State<NewHomeScreen> {
             const SizedBox(
               height: 10.0,
             ),
-            ValueListenableBuilder(
-                valueListenable: NewHomeScreen.userCounter,
-                builder:
-                    (BuildContext context, int? userCounter, Widget? child) {
-                  return Text(
-                    '$userCounter',
-                    style: const TextStyle(
-                        fontSize: 28.0, color: Colors.blueAccent),
-                  );
-                }),
             const SizedBox(
               height: 80.0,
+            ),
+            Text(
+              '$counter',
+              style: const TextStyle(fontSize: 28.0, color: Colors.blueAccent),
             ),
             FloatingActionButton(
               onPressed: counterIncrement,
